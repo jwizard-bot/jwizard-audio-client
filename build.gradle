@@ -1,0 +1,147 @@
+/*
+ * Copyright (c) 2024 by JWizard
+ * Originally developed by Miłosz Gilga <https://miloszgilga.pl>
+ */
+
+import org.codehaus.groovy.runtime.GStringImpl
+import org.jetbrains.dokka.DokkaConfiguration
+
+import java.time.Year
+
+plugins {
+	alias libs.plugins.kotlinJvm
+	alias libs.plugins.dokka
+	id 'maven-publish'
+}
+
+group = 'pl.jwizard'
+version = getEnv('VERSION', 'latest')
+
+ext {
+	jvmSpecification = 17
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation libs.kotlin
+	implementation libs.kotlinReflect
+	implementation libs.lavalinkProtocol
+
+	testImplementation libs.kotlinTest
+}
+
+tasks.register('sourcesJar', Jar) {
+	archiveClassifier = 'sources'
+	from sourceSets.main.allSource
+}
+
+tasks.register('dokkaJavadocJar', Jar.class) {
+	group = 'documentation'
+	dependsOn(dokkaJavadoc)
+	from(dokkaJavadoc)
+	archiveClassifier.set('javadoc')
+}
+
+dokkaHtml {
+	outputDirectory = file("$projectDir/docs")
+	moduleName = "JWizard Audio Client"
+	suppressInheritedMembers = true
+
+	def assets = [
+		'dokka/logo-icon.svg',
+		'dokka/logo-nav.svg',
+		'dokka/dokka-styles.css',
+		'dokka/banner.png',
+	]
+	def definedDokkaAssets = assets
+		.collect { "\"${file(it).absolutePath.replace("\\", "\\\\")}\"" }
+		.join(',')
+
+	def dokkaCopyright
+		= ("&copy; ${Year.now().value} by JWizard"
+		+ ". On AGPL-3.0 license"
+		+ ". Build SHA: ${getEnv('VERSION', 'latest')}") as GStringImpl
+
+	pluginsMapConfiguration.set([
+		'org.jetbrains.dokka.base.DokkaBase': """
+    {
+      "customAssets": [${definedDokkaAssets}],
+      "footerMessage": "${dokkaCopyright}",
+      "separateInheritedMembers": false
+    }
+  """
+	])
+	dokkaSourceSets.configureEach {
+		documentedVisibilities.set([
+			DokkaConfiguration.Visibility.PUBLIC,
+			DokkaConfiguration.Visibility.PRIVATE,
+			DokkaConfiguration.Visibility.PROTECTED
+		])
+		includes.from(file('dokka/README-DOCS.md'))
+	}
+}
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			groupId = group
+			artifactId = 'jwizard-audio-client'
+			version = getEnv('VERSION', 'latest')
+
+			from components.java
+			artifact tasks.sourcesJar
+			artifact tasks.dokkaJavadocJar
+
+			pom {
+				name = 'JWizard audio client'
+				url = "https://docs.jwizard.pl/jwac"
+				licenses {
+					license {
+						name = 'The AGPL-3.0 License'
+						url = 'https://www.gnu.org/licenses/agpl-3.0.en.html'
+					}
+				}
+				developers {
+					developer {
+						id = 'milosz08'
+						name = 'Miłosz Gilga'
+						email = 'personal@miloszgilga.pl'
+					}
+				}
+				scm {
+					connection = 'scm:git:git://github.com/jwizard-bot/jwizard-audio-client.git'
+					developerConnection = 'scm:git:ssh://github.com/jwizard-bot/jwizard-audio-client.git'
+					url = "https://docs.jwizard.pl/jwac"
+				}
+			}
+		}
+	}
+	repositories {
+		maven {
+			name = 'jwizardRepository'
+			url = uri("https://m2.miloszgilga.pl/private")
+			credentials {
+				username = getEnv("MAVEN_NAME")
+				password = getEnv("MAVEN_SECRET")
+			}
+		}
+	}
+}
+
+kotlin {
+	jvmToolchain(rootProject.ext.jvmSpecification.toInteger())
+}
+
+/**
+ * Retrieves the value of an environment variable, with a fallback to a default value.
+ *
+ * @param name The name of the environment variable (without the prefix "JWIZARD_").
+ * @param defValue The default value to return if the environment variable is not set.
+ * @return The value of the environment variable or the default value if not set.
+ */
+static def getEnv(String name, Object defValue = '') {
+	return System.getenv("JWIZARD_$name") ?: defValue.toString()
+}
