@@ -1,13 +1,22 @@
 [versions]
 dokkaVersion = "1.9.20"
+jacksonVersion = "2.18.0"
+jdaVersion = "5.1.0"
 kotlinVersion = "2.0.20"
 lavalinkProtocolVersion = "4.0.8"
+okHttpVersion = "4.12.0"
+rxJavaVersion = "3.1.9"
+rxKotlinVersion = "3.0.1"
 
 [libraries]
+jacksonDatabind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jacksonVersion" }
+jacksonKotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jacksonVersion" }
+jda = { module = "net.dv8tion:JDA", version.ref = "jdaVersion" }
 kotlin = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlinVersion" }
-kotlinReflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlinVersion" }
-kotlinTest = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlinVersion" }
 lavalinkProtocol = { module = "dev.arbjerg.lavalink:protocol", version.ref = "lavalinkProtocolVersion" }
+okHttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okHttpVersion" }
+rxJava = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxJavaVersion" }
+rxKotlin = { module = "io.reactivex.rxjava3:rxkotlin", version.ref = "rxKotlinVersion" }
 
 [plugins]
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokkaVersion" }

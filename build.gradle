@@ -26,11 +26,15 @@ repositories {
 }
 
 dependencies {
-	implementation libs.kotlin
-	implementation libs.kotlinReflect
-	implementation libs.lavalinkProtocol
+	api libs.lavalinkProtocol
+	api libs.rxJava
+	api libs.rxKotlin
 
-	testImplementation libs.kotlinTest
+	implementation libs.jacksonDatabind
+	implementation libs.jacksonKotlin
+	implementation libs.jda
+	implementation libs.kotlin
+	implementation libs.okHttp
 }
 
 tasks.register('sourcesJar', Jar) {
