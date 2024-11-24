@@ -22,7 +22,7 @@ data class KLoadFailedEvent(val exception: TrackException) : KLoadResult {
 		/**
 		 * Creates a [KLoadFailedEvent] instance from a protocol-specific LoadFailed event.
 		 *
-		 * @param event The LoadFailed event from the Lavalink protocol.
+		 * @param event The LoadFailed event from the audio protocol.
 		 * @return A new instance of [KLoadFailedEvent] containing the converted exception.
 		 */
 		fun fromProtocol(event: LoadFailed) = KLoadFailedEvent(TrackException.fromProtocol(event.data))

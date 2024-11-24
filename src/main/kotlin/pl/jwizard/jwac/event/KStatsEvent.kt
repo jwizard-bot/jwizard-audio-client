@@ -41,7 +41,7 @@ data class KStatsEvent(
 		 * Creates a [KStatsEvent] instance from a protocol-specific [StatsEvent].
 		 *
 		 * @param node The [AudioNode] responsible for the statistics.
-		 * @param event The [StatsEvent] received from the Lavalink protocol.
+		 * @param event The [StatsEvent] received from the audio protocol.
 		 * @return A new instance of [KStatsEvent] representing the updated statistics.
 		 */
 		fun fromProtocol(node: AudioNode, event: StatsEvent) =

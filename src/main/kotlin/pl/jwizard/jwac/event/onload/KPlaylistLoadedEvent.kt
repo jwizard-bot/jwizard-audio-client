@@ -31,7 +31,7 @@ data class KPlaylistLoadedEvent(
 		/**
 		 * Creates a [KPlaylistLoadedEvent] instance from a protocol-specific [PlaylistLoaded] event.
 		 *
-		 * @param event The [PlaylistLoaded] event received from the Lavalink protocol.
+		 * @param event The [PlaylistLoaded] event received from the audio protocol.
 		 * @return A new instance of [KPlaylistLoadedEvent] containing the playlist data.
 		 */
 		fun fromProtocol(event: PlaylistLoaded) =

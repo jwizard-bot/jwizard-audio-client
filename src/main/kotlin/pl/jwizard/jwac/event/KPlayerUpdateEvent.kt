@@ -31,7 +31,7 @@ data class KPlayerUpdateEvent(
 		 * Creates a [KPlayerUpdateEvent] instance from a protocol-specific [PlayerUpdateEvent].
 		 *
 		 * @param node The [AudioNode] responsible for the player.
-		 * @param event The [PlayerUpdateEvent] received from the Lavalink protocol.
+		 * @param event The [PlayerUpdateEvent] received from the audio protocol.
 		 * @return A new instance of [KPlayerUpdateEvent] representing the player update event.
 		 */
 		fun fromProtocol(node: AudioNode, event: PlayerUpdateEvent) =

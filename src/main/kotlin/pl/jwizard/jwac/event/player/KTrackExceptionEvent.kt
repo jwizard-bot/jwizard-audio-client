@@ -34,7 +34,7 @@ data class KTrackExceptionEvent(
 		 * Creates a [KTrackExceptionEvent] instance from a protocol-specific [TrackExceptionEvent].
 		 *
 		 * @param node The [AudioNode] responsible for playback.
-		 * @param event The [TrackExceptionEvent] received from the Lavalink protocol.
+		 * @param event The [TrackExceptionEvent] received from the audio protocol.
 		 * @return A new instance of [KTrackExceptionEvent] representing the playback error details.
 		 */
 		fun fromProtocol(node: AudioNode, event: TrackExceptionEvent) = KTrackExceptionEvent(

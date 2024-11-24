@@ -22,7 +22,7 @@ data class KTrackLoadedEvent(val track: Track) : KLoadResult {
 		/**
 		 * Creates a [KTrackLoadedEvent] instance from a protocol-specific [TrackLoaded] result.
 		 *
-		 * @param result The [TrackLoaded] result received from the Lavalink protocol.
+		 * @param result The [TrackLoaded] result received from the audio protocol.
 		 * @return A new instance of [KTrackLoadedEvent] containing the loaded track.
 		 */
 		fun fromProtocol(result: TrackLoaded) = KTrackLoadedEvent(Track(result.data))

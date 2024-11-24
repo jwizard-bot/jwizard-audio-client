@@ -34,7 +34,7 @@ data class KTrackEndEvent(
 		 * Creates a [KTrackEndEvent] instance from a protocol-specific [TrackEndEvent].
 		 *
 		 * @param node The [AudioNode] responsible for playback.
-		 * @param event The [TrackEndEvent] received from the Lavalink protocol.
+		 * @param event The [TrackEndEvent] received from the audio protocol.
 		 * @return A new instance of [KTrackEndEvent] representing the track end details.
 		 */
 		fun fromProtocol(node: AudioNode, event: TrackEndEvent) =

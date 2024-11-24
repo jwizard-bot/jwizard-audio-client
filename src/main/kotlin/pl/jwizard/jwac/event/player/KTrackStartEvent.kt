@@ -31,7 +31,7 @@ data class KTrackStartEvent(
 		 * Creates a [KTrackStartEvent] instance from a protocol-specific [TrackStartEvent].
 		 *
 		 * @param node The [AudioNode] responsible for playback.
-		 * @param event The [TrackStartEvent] received from the Lavalink protocol.
+		 * @param event The [TrackStartEvent] received from the audio protocol.
 		 * @return A new instance of [KTrackStartEvent] representing the track start details.
 		 */
 		fun fromProtocol(node: AudioNode, event: TrackStartEvent) =

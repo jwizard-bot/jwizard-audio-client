@@ -33,7 +33,7 @@ data class KTrackStuckEvent(
 		 * Creates a [KTrackStuckEvent] instance from a protocol-specific [TrackStuckEvent].
 		 *
 		 * @param node The [AudioNode] responsible for playback.
-		 * @param event The [TrackStuckEvent] received from the Lavalink protocol.
+		 * @param event The [TrackStuckEvent] received from the audio protocol.
 		 * @return A new instance of [KTrackStuckEvent] representing the track stuck event details.
 		 */
 		fun fromProtocol(node: AudioNode, event: TrackStuckEvent) =

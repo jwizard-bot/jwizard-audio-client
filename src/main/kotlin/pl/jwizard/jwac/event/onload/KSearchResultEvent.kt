@@ -22,7 +22,7 @@ data class KSearchResultEvent(val tracks: List<Track>) : KLoadResult {
 		/**
 		 * Creates a [KSearchResultEvent] instance from a protocol-specific [SearchResult] event.
 		 *
-		 * @param event The [SearchResult] event received from the Lavalink protocol.
+		 * @param event The [SearchResult] event received from the audio protocol.
 		 * @return A new instance of [KSearchResultEvent] containing the list of matching tracks.
 		 */
 		fun fromProtocol(event: SearchResult) = KSearchResultEvent(event.data.tracks.map { Track(it) })

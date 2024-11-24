@@ -35,7 +35,7 @@ data class KWsClosedEvent(
 		 * Creates a [KWsClosedEvent] instance from a protocol-specific [WebSocketClosedEvent].
 		 *
 		 * @param node The [AudioNode] responsible for the WebSocket connection.
-		 * @param event The [WebSocketClosedEvent] received from the Lavalink protocol.
+		 * @param event The [WebSocketClosedEvent] received from the audio protocol.
 		 * @return A new instance of [KWsClosedEvent] representing the WebSocket closure details.
 		 */
 		fun fromProtocol(node: AudioNode, event: WebSocketClosedEvent) =

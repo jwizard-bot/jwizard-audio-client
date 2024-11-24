@@ -31,7 +31,7 @@ data class KReadyEvent(
 		 * Creates a [KReadyEvent] instance from a protocol-specific [ReadyEvent].
 		 *
 		 * @param node The [AudioNode] responsible for the readiness or resumption event.
-		 * @param event The [ReadyEvent] received from the Lavalink protocol.
+		 * @param event The [ReadyEvent] received from the audio protocol.
 		 * @return A new instance of [KReadyEvent] representing the readiness or resumption event.
 		 */
 		fun fromProtocol(node: AudioNode, event: ReadyEvent) = KReadyEvent(node, event.resumed, event.sessionId)
