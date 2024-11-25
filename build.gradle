@@ -27,14 +27,14 @@ repositories {
 
 dependencies {
 	api libs.lavalinkProtocol
-	api libs.rxJava
-	api libs.rxKotlin
+	api libs.reactor
 
 	implementation libs.jacksonDatabind
 	implementation libs.jacksonKotlin
 	implementation libs.jda
 	implementation libs.kotlin
 	implementation libs.okHttp
+	implementation libs.reactorKotlin
 }
 
 tasks.register('sourcesJar', Jar) {
