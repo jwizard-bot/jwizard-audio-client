@@ -82,7 +82,9 @@ dokkaHtml {
 		documentedVisibilities.set([
 			DokkaConfiguration.Visibility.PUBLIC,
 			DokkaConfiguration.Visibility.PRIVATE,
-			DokkaConfiguration.Visibility.PROTECTED
+			DokkaConfiguration.Visibility.PROTECTED,
+			DokkaConfiguration.Visibility.INTERNAL,
+			DokkaConfiguration.Visibility.PACKAGE,
 		])
 		includes.from(file('dokka/README-DOCS.md'))
 	}
