@@ -25,6 +25,8 @@ class Track(private var protocolTrack: ProtocolTrack) {
 	val uri = protocolTrack.info.uri
 	val thumbnailUrl = protocolTrack.info.artworkUrl
 	val duration = protocolTrack.info.length
+	val sourceName = protocolTrack.info.sourceName
+
 	internal val userData = protocolTrack.userData
 
 	/**
