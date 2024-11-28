@@ -69,6 +69,11 @@ class AudioClient(
 	private val disposableEvents = mutableListOf<Disposable>()
 
 	/**
+	 * Map of node names to their disposable subscriptions.
+	 */
+	private val nodeDisposables = mutableMapOf<String, Disposable>()
+
+	/**
 	 * Publisher for client events.
 	 */
 	private val publisher = ReactiveEventPublisher<ClientEvent>()
@@ -124,8 +129,48 @@ class AudioClient(
 		}
 		val node = AudioNode(nodeConfig, this, instanceName)
 		node.connect(botId)
-		disposableEvents += node.publisher.ofType<ClientEvent>().subscribe(publisher::publishWithException)
+		nodeDisposables[node.name] = node.publisher.ofType<ClientEvent>().subscribe(publisher::publishWithException)
 		internalNodes.add(node)
+	}
+
+	/**
+	 * Adds multiple audio nodes to the client.
+	 *
+	 * @param nodeConfigs The list of node configurations to add.
+	 */
+	fun addNodes(nodeConfigs: List<NodeConfig>) {
+		nodeConfigs.forEach { addNode(it) }
+	}
+
+	/**
+	 * Removes an audio node by its name.
+	 *
+	 * @param name The name of the node to remove.
+	 * @return True if the node was removed, false otherwise.
+	 */
+	fun removeNode(name: String): Boolean {
+		val node = internalNodes.find { it.config.name == name }
+		if (node == null) {
+			log.debug("Unable to find node: {}. Skipping removable operation.", name)
+			return false
+		}
+		if (node in internalNodes) {
+			node.close()
+			internalNodes.remove(node)
+			val handler = nodeDisposables.remove(node.name)
+			handler?.dispose()
+			return true
+		}
+		return false
+	}
+
+	/**
+	 * Removes multiple audio nodes by their names.
+	 *
+	 * @param names The list of node names to remove.
+	 */
+	fun removeNodes(names: List<String>) {
+		names.forEach { removeNode(it) }
 	}
 
 	/**
@@ -270,6 +315,7 @@ class AudioClient(
 		log.info("Disposed: {} event handlers.", disposableEvents.size)
 
 		internalNodes.forEach { it.close() }
+		nodeDisposables.values.forEach { it.dispose() }
 		log.info("Disposed: {} audio nodes.", internalNodes)
 
 		reconnectService.shutdownNow()
