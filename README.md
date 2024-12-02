@@ -63,7 +63,7 @@ Documentation for latest version (with SHA) you will find [here](https://docs.jw
 
 ## Contributing
 
-We welcome contributions from the community! Please read our [CONTRIBUTE](./CONTRIBUTE.md) file for guidelines on how
+We welcome contributions from the community! Please read our [CONTRIBUTING](./CONTRIBUTING) file for guidelines on how
 to get involved.
 
 ## License
