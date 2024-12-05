@@ -38,6 +38,7 @@ class AudioSessionController(
 	 * @param authorMember The member who initiated the audio session transfer.
 	 * @param selfMember The bot’s member in the guild.
 	 * @param onTransferNode A callback function that is called when the node transfer is completed.
+	 * @return `true`, if any active node in selected [pool] exist, otherwise `false`.
 	 */
 	fun loadAndTransferToNode(
 		guild: Guild,
@@ -45,11 +46,18 @@ class AudioSessionController(
 		authorMember: Member,
 		selfMember: Member,
 		onTransferNode: (AudioNode) -> Unit,
-	) {
+	): Boolean {
 		val guildId = guild.idLong
 		audioClient.updateGuildNodePool(guildId, pool)
 		log.debug("Switch to: {} pool in guild: {}.", guildId, pool)
 
+		val availablePoolNodes = audioClient
+			.getNodes(onlyAvailable = true)
+			.filter { it.pool == pool }
+
+		if (availablePoolNodes.isEmpty()) {
+			return false
+		}
 		audioClient.voiceGatewayUpdateTrigger = CompletableFuture()
 
 		if (gatewayVoiceStateInterceptor.inAudioChannel(selfMember) == false) {
@@ -65,6 +73,7 @@ class AudioSessionController(
 			audioClient.transferNodeFromNewPool(guildId, pool, onTransferNode)
 			audioClient.voiceGatewayUpdateTrigger = null
 		}
+		return true
 	}
 
 	/**
