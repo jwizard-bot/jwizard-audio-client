@@ -59,7 +59,10 @@ $ ./gradlew publishToMavenLocal
 
 For detailed documentation, please visit [JWizard documentation](https://jwizard.pl/docs).
 <br>
-Documentation for latest version (with SHA) you will find [here](https://docs.jwizard.pl/jwac) - in KDoc format.
+Documentation for latest version (with SHA) you will find:
+
+* [here](https://docs.jwizard.pl/jwac/kdoc) - in **KDoc** format,
+* [here](https://docs.jwizard.pl/jwac/javadoc) - in **Javadoc** format.
 
 ## Contributing
 
