@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 by JWizard
+ * Copyright (c) 2025 by JWizard
  * Originally developed by Miłosz Gilga <https://miloszgilga.pl>
  */
 
@@ -14,8 +14,10 @@ plugins {
 	id 'maven-publish'
 }
 
+def projectVersion = getEnv('VERSION', 'latest')
+
 group = 'pl.jwizard'
-version = getEnv('VERSION', 'latest')
+version = projectVersion
 
 ext {
 	jvmSpecification = 17
@@ -49,16 +51,19 @@ tasks.register('dokkaJavadocJar', Jar.class) {
 	archiveClassifier.set('javadoc')
 }
 
+def docModuleName = "JWizard Audio Client ($projectVersion)"
+def docRootDir = "$projectDir/docs"
+
 dokkaHtml {
-	outputDirectory = file("$projectDir/docs")
-	moduleName = "JWizard Audio Client"
+	moduleName = docModuleName
+	moduleVersion = "" // move module version to module name
+	outputDirectory = file("$docRootDir/kdoc")
 	suppressInheritedMembers = true
 
 	def assets = [
 		'dokka/logo-icon.svg',
 		'dokka/logo-nav.svg',
 		'dokka/dokka-styles.css',
-		'dokka/banner.png',
 	]
 	def definedDokkaAssets = assets
 		.collect { "\"${file(it).absolutePath.replace("\\", "\\\\")}\"" }
@@ -67,7 +72,7 @@ dokkaHtml {
 	def dokkaCopyright
 		= ("&copy; ${Year.now().value} by JWizard"
 		+ ". On AGPL-3.0 license"
-		+ ". Build SHA: ${getEnv('VERSION', 'latest')}") as GStringImpl
+		+ ". Build SHA: $projectVersion") as GStringImpl
 
 	pluginsMapConfiguration.set([
 		'org.jetbrains.dokka.base.DokkaBase': """
@@ -86,8 +91,19 @@ dokkaHtml {
 			DokkaConfiguration.Visibility.INTERNAL,
 			DokkaConfiguration.Visibility.PACKAGE,
 		])
-		includes.from(file('dokka/README-DOCS.md'))
 	}
+}
+
+dokkaJavadoc {
+	moduleName = docModuleName
+	outputDirectory = file("$docRootDir/javadoc")
+	suppressInheritedMembers = true
+}
+
+tasks.register('dokkaAll') {
+	group = 'documentation'
+	dependsOn dokkaHtml
+	dependsOn dokkaJavadoc
 }
 
 publishing {
@@ -95,7 +111,7 @@ publishing {
 		mavenJava(MavenPublication) {
 			groupId = group
 			artifactId = 'jwizard-audio-client'
-			version = getEnv('VERSION', 'latest')
+			version = projectVersion
 
 			from components.java
 			artifact tasks.sourcesJar
