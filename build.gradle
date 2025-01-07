@@ -51,11 +51,11 @@ tasks.register('dokkaJavadocJar', Jar.class) {
 	archiveClassifier.set('javadoc')
 }
 
-def docModuleName = "JWizard Audio Client ($projectVersion)"
+def docModuleName = "JWizard Audio Client"
 def docRootDir = "$projectDir/docs"
 
 dokkaHtml {
-	moduleName = docModuleName
+	moduleName = "$docModuleName ($projectVersion)"
 	moduleVersion = "" // move module version to module name
 	outputDirectory = file("$docRootDir/kdoc")
 	suppressInheritedMembers = true
@@ -95,7 +95,7 @@ dokkaHtml {
 }
 
 dokkaJavadoc {
-	moduleName = docModuleName
+	moduleName = "$docModuleName - "
 	outputDirectory = file("$docRootDir/javadoc")
 	suppressInheritedMembers = true
 }
